@@ -1,0 +1,81 @@
+.title{
+  background-color:#2B2B2B;
+  color: #ebebeb;
+  font-family:'Oswald',sans-serif;
+  font-size:1.2rem;
+  text-transform:uppercase;
+  height:250px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+@media screen and (min-width:320px){
+  .title{
+    font-size:1.3rem;
+  }
+}
+@media screen and (min-width:550px){
+  .title{
+    font-size:1.6rem;
+  }
+}
+@media screen and (min-width:768px){
+  .title{
+    font-size:1.8rem;
+  }
+}
+@media screen and (min-width:960px){
+  .title{
+    font-size:2rem;
+  }
+}
+
+.wrapper{
+  margin:15px;
+  width:auto;
+  display:flex;
+  height:500px;
+  position:relative;
+}
+.content{
+  position:absolute;
+  top:0;left:0;right:0;bottom:0;
+  margin:auto;
+  border:1px solid #c0c0c0;
+  width:80%;
+  height:auto;
+}
+.comments{
+  height:70%;
+  width:100%;
+  position:absolute;
+}
+.editor{
+  height:30%;
+  width:100%;
+  bottom:0;
+  position:absolute;
+}
+#text{
+  width:50%;
+  margin:10px;
+  height:30px;
+}
+#btnArea{
+  bottom:10px;
+  position:absolute;
+  left:38%;
+
+}
+.sendMsg,.closeCnt{
+  margin:5px;
+  background-color: #FFC125;
+  border:none;
+  width:5rem;
+  height:2rem;
+  font-size:1rem;
+  color:white;
+}
+.closeCnt{
+  background-color: #2B2B2B;
+}
