@@ -78,6 +78,7 @@ class BtnArea extends Component{
         let message = document.getElementById('text').value;
         //websocket.send(message);
         document.getElementById('text').value = '';
+        document.getElementById('text').focus();
     }
     render(){
         return(
