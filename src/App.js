@@ -54,18 +54,18 @@ class MsgArea extends Component{
     constructor() {
         super();
         this.state = {
-            count:90
+            message: '初始化webSocket...'
         }
     }
     handleData(data) {
         let result = JSON.parse(data);
-        this.setState({count: this.state.count + result.movement});
-        document.getElementById('message').innerHTML += result;
+        this.setState({message: result})
     }
     render(){
         return(
             <div id="message">
                 <Websocket url='ws://localhost:3002' onMessage={this.handleData.bind(this)} />
+                {this.state.message}
             </div>
         )
     }
@@ -75,18 +75,15 @@ class MsgInput extends Component{
     constructor() {
         super();
     }
-
     render(){
         return(
         <div>
-            <input id="text" type="text" placeholder="Type here..."/>
-
+            <input id="text" ref={(input) => this.input = input} type="text" placeholder="Type here..."/>
         </div>
         )
     }
-    componentDidMount () {
-        let input = document.getElementById('text');
-        input.focus();
+    componentDidMount(){
+        this.input.focus();
     }
 }
 //按钮组件
@@ -102,11 +99,7 @@ class BtnArea extends Component{
     send(){
         ws.onopen = function (e) {
             console.log('start to send message');
-
-
         };
-        document.getElementById('text').value = '';
-        document.getElementById('text').focus();
     }
     render(){
         return(
