@@ -10,6 +10,9 @@ let users = require('./routes/users');
 
 let app = express();
 
+let server = require('http').Server(app);
+let io = require('socket.io')(server);
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
@@ -30,6 +33,10 @@ app.use(function (req,res,next) {
     next()
 });
 
+let port = 3003;
+app.set('port',port);
+server.listen(port);
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   let err = new Error('Not Found');
@@ -48,5 +55,12 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
+//测试代码
+io.on('connection',function (socket) {
+    socket.emit('news',{hello:'world'});
+    socket.on('my other event',function (data) {
+        console.log(data);
+    })
+});
 
 module.exports = app;
