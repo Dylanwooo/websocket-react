@@ -56,13 +56,13 @@
   bottom:0;
   position:absolute;
 }
-#text{
+.text{
   width:50%;
   margin:10px;
   height:30px;
   border: 2px solid #5CACEE;
 }
-#btnArea{
+.btnArea{
   bottom:10px;
   position:absolute;
   left:38%;

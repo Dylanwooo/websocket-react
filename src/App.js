@@ -39,6 +39,9 @@ class Chatbox extends Component{
     constructor() {
         super();
     }
+    handleSubmitComment(content){
+        console.log(content);
+    }
     render(){
         return(
             <div className="wrapper">
@@ -48,8 +51,7 @@ class Chatbox extends Component{
                     </div>
                     <div className="editor">
                         <hr />
-                        <MsgInput />
-                        <BtnArea />
+                        <MsgInput onSubmit={ this.handleSubmitComment.bind(this) }/>
                     </div>
                 </div>
             </div>
@@ -62,11 +64,18 @@ class MsgArea extends Component{
         super();
         this.state = {
             message: '初始化webSocket...'
-        }
+        };
+        ws = io.connect('ws://localhost:3003');
+
     }
-    handleData(data) {
-        let result = JSON.parse(data);
-        this.setState({message: result})
+    componentWillUpdate(){
+        ws.on('news',function (data) {
+            //接收后台传来的数据
+            console.log(data);
+            this.setState({message: data})
+            //发送数据到后台
+            //ws.emit('my other event',{my:'dylanwoo'});
+        })
     }
     render(){
         return(
@@ -78,45 +87,42 @@ class MsgArea extends Component{
 }
 //输入框组件
 class MsgInput extends Component{
-    constructor() {
-        super();
-        ws = io.connect('ws://localhost:3003');
-        ws.on('news',function (data) {
-            //接收后台传来的数据
-            console.log(data);
-            //发送数据到后台
-            ws.emit('my other event',{my:'dylanwoo'});
+    constructor(props) {
+        super(props);
+        this.state = {
+            content: ''
+        }
+    }
+    handleSubmit() {
+        if(this.props.onSubmit){
+            const {content} = this.state;
+            this.props.onSubmit({content})
+        }
+        //将输入框内容清空
+        this.setState({content:''});
+    }
+    handleMsgChange(event){
+        this.setState({
+            content: event.target.value
         })
     }
     render(){
         return(
         <div>
-            <input id="text" ref={(input) => this.input = input} type="text" placeholder="Type here..."/>
+            <input className="text"
+                   value={this.state.content}
+                   ref={(input) => this.input = input}
+                   onChange={ this.handleMsgChange.bind(this) }
+                   placeholder="Type here..."/>
+            <div className="btnArea">
+                <button className="sendMsg" onClick={this.handleSubmit.bind(this)}>发送消息</button>
+                <button className="closeCnt">关闭连接</button>
+            </div>
         </div>
         )
     }
     componentDidMount(){
         this.input.focus();
-    }
-}
-//按钮组件
-class BtnArea extends Component{
-    constructor() {
-        super();
-    }
-    send(){
-        ws.onopen = function (e) {
-            console.log('start to send message');
-            ws.send('hi');
-        };
-    }
-    render(){
-        return(
-            <div id="btnArea">
-                <button className="sendMsg" onClick={this.send.bind(this)}>发送消息</button>
-                <button className="closeCnt">关闭连接</button>
-            </div>
-        )
     }
 }
 
