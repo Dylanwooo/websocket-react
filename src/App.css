@@ -80,3 +80,8 @@
 .closeCnt{
   background-color: #2B2B2B;
 }
+.message{
+  padding-left: 20px;
+  max-height: 330px;
+  overflow: scroll;
+}

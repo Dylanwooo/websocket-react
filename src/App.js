@@ -1,14 +1,33 @@
 import React, { Component } from 'react';
-//import Websocket from 'react-websocket';
 import CommentInput from './CommentInput';
 import CommentList from './CommentList';
 import io from 'socket.io-client';
 import './App.css';
 
+let ws;
 class App extends Component {
 
+    constructor(){
+        super();
+        this.state  ={
+            //初始化一个数组用于保存前后端交流的数据
+            comments:[]
+        }
+    }
     handleSubmitComment(comment){
-        console.log(comment)
+        if(!comment) return;
+        if(!comment.content) return alert('输入点啥呗!');
+        this.state.comments.push(comment);
+        this.setState({
+            comments: this.state.comments
+        });
+        ws = io.connect('ws://localhost:3003');
+        ws.on('news',function (data) {
+            //发送数据到后台
+             ws.emit('my other event',comment);
+             //接收后台传来的数据
+             console.log(data);
+         })
     }
     render() {
           return(
@@ -17,7 +36,7 @@ class App extends Component {
                       HELLO,WELCOME TO THE CHATROOM!
                   </div>
                   <div className="comments">
-                      <CommentList/>
+                      <CommentList comments={this.state.comments}/>
                   </div>
                   <div className="editor">
                       <hr />
@@ -27,29 +46,5 @@ class App extends Component {
           )
     }
 }
-
-/*class Chatbox extends Component{
-    constructor(props) {
-        super(props);
-    }
-    handleSubmitComment(content){
-        console.log(content);
-    }
-    render(){
-        return(
-            <div className="wrapper">
-                <div className="content">
-                    <div className="comments">
-                        <MsgArea />
-                    </div>
-                    <div className="editor">
-                        <hr />
-                        <MsgInput onSubmit={ this.handleSubmitComment.bind(this) }/>
-                    </div>
-                </div>
-            </div>
-        )
-    }
-}*/
 
 export default App;

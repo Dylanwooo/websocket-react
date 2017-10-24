@@ -56,11 +56,17 @@ app.use(function(err, req, res, next) {
 });
 
 //测试代码
+let _data;
 io.on('connection',function (socket) {
-    socket.emit('news',{hello:'world'});
+    //发送数据前台
+    socket.emit('news',_data);
+    //监听接受前台传来的数据
     socket.on('my other event',function (data) {
+        _data = data;
         console.log(data);
-    })
+    });
+
+
 });
 
 module.exports = app;

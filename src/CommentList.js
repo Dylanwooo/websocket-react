@@ -2,29 +2,24 @@
  * Created by Dylanwoo on 2017/10/24.
  */
 import React, { Component } from 'react';
+import Comment from './Comment';
 
 class CommentList extends Component{
+    static defaultProps = {
+        comments: []
+    };
     constructor(props) {
         super(props);
         this.state = {
-            message: '初始化webSocket...'
+            message: '连接成功!'
         };
-        //ws = io.connect('ws://localhost:3003');
 
-    }
-    componentWillUpdate(){
-        /*ws.on('news',function (data) {
-            //接收后台传来的数据
-            console.log(data);
-            this.setState({message: data})
-            //发送数据到后台
-            ws.emit('my other event',{my:'dylanwoo'});
-        })*/
     }
     render(){
         return(
-            <div id="message">
+            <div className="message">
                 {this.state.message}
+                {this.props.comments.map((comment,i) => <Comment comment={comment} key={i} />)}
             </div>
         )
     }

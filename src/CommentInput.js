@@ -12,8 +12,10 @@ class CommentInput extends Component{
         }
     }
     handleSubmit() {
+        //判断如果在父组件中存在onSubmit方法的话
         if(this.props.onSubmit){
             const {content} = this.state;
+            //往父组件App里传东西
             this.props.onSubmit({content})
         }
         //将输入框内容清空
@@ -24,14 +26,8 @@ class CommentInput extends Component{
             content: event.target.value
         })
     }
-    componentWillUpdate(){
-        /*ws.on('news',function (data) {
-            //接收后台传来的数据
-            console.log(data);
-            this.setState({message: data});
-            //发送数据到后台
-            ws.emit('my other event',this.content);
-        })*/
+    handleCloseBtn(){
+
     }
     render(){
         return(
