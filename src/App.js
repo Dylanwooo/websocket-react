@@ -14,13 +14,32 @@ class App extends Component {
             comments:[]
         }
     }
+
+    _loadComments(){
+        let comments = localStorage.getItem('comment');
+        if(comments){
+            comments = JSON.parse(comments);
+            this.setState({comments})
+        }
+    }
+
+    componentWillMount(){
+        this._loadComments();
+    }
+
+    _saveComments(comments){
+        localStorage.setItem('comment',JSON.stringify(comments));
+    }
+
     handleSubmitComment(comment){
         if(!comment) return;
         if(!comment.content) return alert('输入点啥呗!');
         this.state.comments.push(comment);
+        const comments = this.state.comments;
         this.setState({
             comments: this.state.comments
         });
+        this._saveComments(comments);
         ws = io.connect('ws://localhost:3003');
         ws.on('news',function (data) {
             //发送数据到后台
