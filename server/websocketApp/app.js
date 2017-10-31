@@ -10,8 +10,8 @@ let users = require('./routes/users');
 
 let app = express();
 
-let server = require('http').Server(app);
-let io = require('socket.io')(server);
+const server = require('http').Server(app);
+const io = require('socket.io')(server);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -63,7 +63,7 @@ io.on('connection',function (socket) {
     //监听接受前台传来的数据
     socket.on('my other event',function (data) {
         _data = data;
-        console.log(data);
+        console.log(JSON.stringify(data));
     });
 
 

@@ -42,10 +42,11 @@ class App extends Component {
         this._saveComments(comments);
         ws = io.connect('ws://localhost:3003');
         ws.on('news',function (data) {
+            //接收后台传来的数据
+            console.log(data);
             //发送数据到后台
              ws.emit('my other event',comment);
-             //接收后台传来的数据
-             console.log(data);
+
          })
     }
     render() {
